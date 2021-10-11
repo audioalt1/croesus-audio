@@ -16,36 +16,57 @@ const audioFiles = {
   mushroomsSwitch: new Audio("assets/mushrooms_switch.mp3"),
 };
 
+let alertMechanics = true;
+let alertMushrooms = true;
+
+const onMechanicsCBClick = (e) => (alertMechanics = e.checked);
+const onMushroomsCBClick = (e) => (alertMushrooms = e.checked);
+
 // Start timer for mushrooms switch
+let mushroomsInterval;
+let mushroomsTimer;
 const onMushroomsSwitch = () => {
-  setTimeout(() => {
+  if (typeof mushroomsTimer !== "undefined") {
+    clearTimeout(mushroomsTimer);
+  }
+  mushroomsTimer = setTimeout(() => {
     console.log("mushroomsSwitch");
-    audioFiles.mushroomsSwitch.play();
-    mushroomsSwitchTimer = setInterval(() => {
+    bossTimerFound && alertMushrooms && audioFiles.mushroomsSwitch.play();
+    if (typeof mushroomsInterval !== "undefined") {
+      clearInterval(mushroomsInterval);
+    }
+    mushroomsInterval = setInterval(() => {
       console.log("mushroomsSwitch");
-      audioFiles.mushroomsSwitch.play();
+      bossTimerFound && alertMushrooms && audioFiles.mushroomsSwitch.play();
     }, 30000);
   }, 25000);
 };
 
 // Helper function to play audio after a delay
-const playWithTimeout = (audio, seconds) => {
+const playWithTimeout = (audio, seconds) =>
   setTimeout(() => {
     console.log(audio);
-    audioFiles[audio].play();
+    bossTimerFound && alertMechanics && audioFiles[audio].play();
   }, seconds * 1000);
-};
 
 // Start timers for all mechanics
+let mechanicsTimers = [];
 const start = () => {
-  playWithTimeout("bd13s", 8);
-  playWithTimeout("fairy22s", 17);
-  playWithTimeout("crystalMask", 25);
-  playWithTimeout("bd49s", 44);
-  playWithTimeout("anticipate", 55);
-  playWithTimeout("sticky1m12s", 67);
-  playWithTimeout("bd1m25s", 80);
-  playWithTimeout("goMid", 134);
+  mechanicsTimers = [
+    playWithTimeout("bd13s", 8),
+    playWithTimeout("fairy22s", 17),
+    playWithTimeout("crystalMask", 25),
+    playWithTimeout("bd49s", 44),
+    playWithTimeout("anticipate", 55),
+    playWithTimeout("sticky1m12s", 67),
+    playWithTimeout("bd1m25s", 80),
+    playWithTimeout("goMid", 134),
+  ];
+};
+
+// Stop timers for all mechanics
+const stop = () => {
+  mechanicsTimers.map((timer) => clearTimeout(timer));
 };
 
 // Start delayed alerts once boss timer appears
@@ -63,6 +84,7 @@ const bossTimer = setInterval(() => {
   } else {
     if (bossTimerFound) {
       bossTimerFound = false;
+      stop();
     }
   }
 }, 300);

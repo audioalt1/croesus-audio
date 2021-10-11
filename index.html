@@ -11,7 +11,23 @@
   </head>
 
   <body>
-    <button type="button" onclick="onMushroomsSwitch()">Mushrooms</button>
+    <div style="display: flex; flex-direction: column">
+      <label
+        ><input
+          type="checkbox"
+          onclick="onMushroomsCBClick(this);"
+          checked
+        />Mushrooms</label
+      >
+      <label
+        ><input
+          type="checkbox"
+          onclick="onMechanicsCBClick(this);"
+          checked
+        />Mechanics</label
+      >
+      <button type="button" onclick="onMushroomsSwitch()">Mushrooms</button>
+    </div>
   </body>
 
   <script src="scripts/script.js"></script>
