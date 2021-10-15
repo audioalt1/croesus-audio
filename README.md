@@ -1,3 +1,3 @@
 # Croesus Audio
 
-Croesus Audio provides audio alerts for the first mechanics during gathering in 4man (usually until gathering from the main node has ended).
+Croesus Audio provides audio alerts for the first mechanics during gathering in 4man (usually until gathering for repairing statues has ended).
